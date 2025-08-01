@@ -1,4 +1,4 @@
-/* Reset stylów */
+
 * {
   color-scheme: light dark;
   box-sizing: border-box;
@@ -12,14 +12,21 @@ body {
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* Sekcja timera */
+
 #timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 40px;
   text-align: center;
+  width: 100%;
+  max-width: 600px;
 }
 
 #course {
@@ -28,11 +35,16 @@ body {
 }
 
 #time {
-  font-size: 64px;
+  font-size: 5rem;
   margin-bottom: 30px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 100%;
 }
 
-/* Przyciski */
+
 .button {
   background-color: #ff4d4d;
   color: white;
@@ -53,18 +65,14 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+  width: 100%;
 }
 
-/* Responsywność */
+
 @media (max-width: 500px) {
-#time {
-  font-size: 64px;
-  text-align: center;
-  border: none;
-  background: transparent;
-  color: inherit;
-  width: 200px;
-}
+  #time {
+    font-size: 3rem;
+  }
 
   .button {
     font-size: 16px;
@@ -84,24 +92,12 @@ body {
   body { background: #ddd; color: black; }
 }
 
-#time-settings {
-  margin-bottom: 15px;
-  font-size: 18px;
-}
-
-#minutesInput {
-  padding: 6px;
-  font-size: 16px;
-  width: 60px;
-  text-align: center;
-  margin-left: 8px;
-}
-
 #timerDisplay {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 #darkmode-buttons {
@@ -113,7 +109,7 @@ body {
   gap: 10px;
 }
 
-moon-sun {
+.moon-sun {
   background-color: #666;
   color: white;
   border: none;
@@ -126,4 +122,52 @@ moon-sun {
 
 .moon-sun:hover {
   background-color: #888;
+}
+
+#settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+#settings-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#settings-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  color: #333;
+}
+
+.setting {
+  margin: 15px 0;
+}
+
+.setting label {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+}
+
+.setting input {
+  width: 60px;
+  padding: 5px;
 }

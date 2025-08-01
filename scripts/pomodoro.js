@@ -1,92 +1,168 @@
-// Elementy
-const timerDisplay = document.getElementById("time");
-const startButton = document.getElementById("startBtn");
-const resetButton = document.getElementById("resetBtn");
-const timerContainer = document.getElementById("timerDisplay");
-const gif = document.getElementById("gif");
+        const timerDisplay = document.getElementById("time");
+        const startButton = document.getElementById("startBtn");
+        const resetButton = document.getElementById("resetBtn");
+        const gif = document.getElementById("gif");
+        const settingsBtn = document.getElementById("settings-btn");
+        const settingsModal = document.getElementById("settings-modal");
+        const saveSettingsBtn = document.getElementById("save-settings");
+        const closeSettingsBtn = document.getElementById("close-settings");
+        const workTimeInput = document.getElementById("work-time");
+        const shortBreakInput = document.getElementById("short-break");
+        const longBreakInput = document.getElementById("long-break");
 
-let isRunning = false;
-let interval;
-let minutes = 20;
-let seconds = 0;
+        let config = {
+            workTime: 25,
+            shortBreak: 5,
+            longBreak: 15,
+            sessionsBeforeLongBreak: 4
+        };
 
-const gifPath = "gifs/giphy.gif";        // animowany gif
-const gifStopped = "gifs/image.png";     // zatrzymany (statyczny)
+        let isRunning = false;
+        let interval;
+        let minutes = config.workTime;
+        let seconds = 0;
+        let sessionCount = 0;
+        let isWorkMode = true;
 
-// Ustawienie wartości domyślnej
-updateTimer();
+        function init() {
+            updateTimer();
+            loadSettings();
+        }
 
-// ▶️ START / ⏸️ STOP
-startButton.addEventListener("click", function () {
-  if (!isRunning) {
-    const parsed = parseInputTime();
-    minutes = parsed.min;
-    seconds = parsed.sec;
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('pomodoroSettings');
+            if (savedSettings) {
+                config = JSON.parse(savedSettings);
+                workTimeInput.value = config.workTime;
+                shortBreakInput.value = config.shortBreak;
+                longBreakInput.value = config.longBreak;
+            }
+            initTimer();
+        }
 
-    isRunning = true;
-    startGif();
-    startButton.textContent = "Stop";
-    timerContainer.style.border = "1px solid lightgray";
+        function saveSettings() {
+            config = {
+                workTime: parseInt(workTimeInput.value) || 25,
+                shortBreak: parseInt(shortBreakInput.value) || 5,
+                longBreak: parseInt(longBreakInput.value) || 15,
+                sessionsBeforeLongBreak: 4
+            };
+            
+            localStorage.setItem('pomodoroSettings', JSON.stringify(config));
+            settingsModal.style.display = 'none';
+            
+            if (!isRunning) {
+                initTimer();
+            }
+        }
 
-    interval = setInterval(() => {
-      if (seconds > 0) {
-        seconds--;
-      } else if (minutes > 0) {
-        minutes--;
-        seconds = 59;
-      } else {
-        clearInterval(interval);
-        isRunning = false;
-        startButton.textContent = "Start";
-        stopGif();
-        return;
-      }
-      updateTimer();
-    }, 1000);
-  } else {
-    clearInterval(interval);
-    isRunning = false;
-    stopGif();
-    startButton.textContent = "Start";
-    timerContainer.style.border = "2px solid red";
-  }
-});
+        function initTimer() {
+            minutes = isWorkMode ? config.workTime : 
+                     (sessionCount % config.sessionsBeforeLongBreak === 0 ? 
+                      config.longBreak : config.shortBreak);
+            seconds = 0;
+            updateTimer();
+            stopGif();
+        }
 
-// 🔁 RESET
-resetButton.addEventListener("click", function () {
-  clearInterval(interval);
-  isRunning = false;
-  const parsed = parseInputTime();
-  minutes = parsed.min;
-  seconds = parsed.sec;
-  updateTimer();
-  startButton.textContent = "Start";
-  timerContainer.style.border = "none";
-  stopGif();
-});
+        function updateTimer() {
+          document.getElementById("time").textContent = 
+          `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
 
-// 🔄 Aktualizacja timera
-function updateTimer() {
-  timerDisplay.value = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-}
+        function startTimer() {
+            isRunning = true;
+            startButton.textContent = "Stop";
+            startGif();
+            
+            interval = setInterval(() => {
+                if (seconds > 0) {
+                    seconds--;
+                } else if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    clearInterval(interval);
+                    isRunning = false;
+                    showNotification();
+                    switchMode();
+                    return;
+                }
+                updateTimer();
+            }, 1000);
+        }
 
-// 📥 Parsowanie czasu z inputa
-function parseInputTime() {
-  const [minStr, secStr] = timerDisplay.value.split(":");
-  let min = parseInt(minStr);
-  let sec = parseInt(secStr);
-  if (isNaN(min)) min = 0;
-  if (isNaN(sec)) sec = 0;
-  return { min, sec };
-}
+        function stopTimer() {
+            clearInterval(interval);
+            isRunning = false;
+            startButton.textContent = "Start";
+            stopGif();
+        }
 
-// ▶️ GIF start
-function startGif() {
-  gif.src = gifStopped;
-  gif.src = gifPath;
-}
+        function switchMode() {
+            isWorkMode = !isWorkMode;
+            if (!isWorkMode) sessionCount++;
+            initTimer();
+            
+            if (!isWorkMode) {
+                setTimeout(() => {
+                    if (!isRunning) {
+                        startTimer();
+                    }
+                }, 1000);
+            }
+        }
 
-// ⏹️ GIF stop
-function stopGif() {
-  gif.src = gifStopped;
-}
+        function startGif() {
+            gif.src = "gifs/giphy.gif";
+        }
+
+        function stopGif() {
+            gif.src = "gifs/image.png";
+        }
+
+        function showNotification() {
+            const title = isWorkMode ? "Czas na przerwę!" : "Czas do pracy!";
+            const body = isWorkMode ? `Sesja pracy zakończona. Przerwa: ${getBreakTime()} minut` : 
+                                     "Przerwa zakończona. Czas wrócić do pracy!";
+            
+            if (window.electronAPI) {
+                window.electronAPI.sendNotification(title, body);
+            } else if (Notification.permission === "granted") {
+                new Notification(title, { body });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") new Notification(title, { body });
+                });
+            }
+        }
+
+        function getBreakTime() {
+            return sessionCount % config.sessionsBeforeLongBreak === 0 ? 
+                   config.longBreak : config.shortBreak;
+        }
+
+        startButton.addEventListener("click", () => {
+            if (!isRunning) {
+                startTimer();
+            } else {
+                stopTimer();
+            }
+        });
+
+        resetButton.addEventListener("click", () => {
+            stopTimer();
+            initTimer();
+        });
+
+        settingsBtn.addEventListener("click", () => {
+            settingsModal.style.display = 'flex';
+        });
+
+        saveSettingsBtn.addEventListener("click", saveSettings);
+
+        closeSettingsBtn.addEventListener("click", () => {
+            settingsModal.style.display = 'none';
+        });
+
+        document.addEventListener("DOMContentLoaded", init);
