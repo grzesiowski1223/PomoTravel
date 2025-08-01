@@ -1,5 +1,6 @@
 /* Reset stylów */
 * {
+  color-scheme: light dark;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -56,12 +57,73 @@ body {
 
 /* Responsywność */
 @media (max-width: 500px) {
-  #time {
-    font-size: 48px;
-  }
+#time {
+  font-size: 64px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 200px;
+}
 
   .button {
     font-size: 16px;
     padding: 10px 20px;
   }
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #ddd; color: black; }
+}
+
+#time-settings {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+#minutesInput {
+  padding: 6px;
+  font-size: 16px;
+  width: 60px;
+  text-align: center;
+  margin-left: 8px;
+}
+
+#timerDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+#darkmode-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+moon-sun {
+  background-color: #666;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.moon-sun:hover {
+  background-color: #888;
 }

@@ -1,75 +1,92 @@
-// Selecting elements
+// Elementy
 const timerDisplay = document.getElementById("time");
 const startButton = document.getElementById("startBtn");
 const resetButton = document.getElementById("resetBtn");
 const timerContainer = document.getElementById("timerDisplay");
+const gif = document.getElementById("gif");
 
 let isRunning = false;
 let interval;
 let minutes = 20;
 let seconds = 0;
 
-// Function to update timer display
-function updateTimer() {
-    timerDisplay.innerHTML = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-}
+const gifPath = "gifs/giphy.gif";        // animowany gif
+const gifStopped = "gifs/image.png";     // zatrzymany (statyczny)
 
-// Start/Stop button functionality
+// Ustawienie wartości domyślnej
+updateTimer();
+
+// ▶️ START / ⏸️ STOP
 startButton.addEventListener("click", function () {
-    if (!isRunning) {
-        isRunning = true;
-        startGif();
-        startButton.textContent = "Stop";
-        timerContainer.style.border = "1px solid lightgray";
+  if (!isRunning) {
+    const parsed = parseInputTime();
+    minutes = parsed.min;
+    seconds = parsed.sec;
 
-        interval = setInterval(() => {
-            if (seconds > 0) {
-                seconds--;
-            } else if (minutes > 0) {
-                minutes--;
-                seconds = 59;
-            } else {
-                clearInterval(interval);
-                isRunning = false;
-                startButton.textContent = "Start";
-                return;
-            }
+    isRunning = true;
+    startGif();
+    startButton.textContent = "Stop";
+    timerContainer.style.border = "1px solid lightgray";
 
-            updateTimer();
-        }, 1000);
-    } else {
+    interval = setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+      } else if (minutes > 0) {
+        minutes--;
+        seconds = 59;
+      } else {
         clearInterval(interval);
         isRunning = false;
-        stopGif();
         startButton.textContent = "Start";
-        timerContainer.style.border = "2px solid red";
-    }
+        stopGif();
+        return;
+      }
+      updateTimer();
+    }, 1000);
+  } else {
+    clearInterval(interval);
+    isRunning = false;
+    stopGif();
+    startButton.textContent = "Start";
+    timerContainer.style.border = "2px solid red";
+  }
 });
 
-// Reset button functionality
+// 🔁 RESET
 resetButton.addEventListener("click", function () {
   clearInterval(interval);
   isRunning = false;
-  minutes = 20;
-  seconds = 0;
+  const parsed = parseInputTime();
+  minutes = parsed.min;
+  seconds = parsed.sec;
   updateTimer();
   startButton.textContent = "Start";
   timerContainer.style.border = "none";
-  stopGif(); // ← dodaj to
+  stopGif();
 });
 
+// 🔄 Aktualizacja timera
+function updateTimer() {
+  timerDisplay.value = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
 
-// Initial display update
-updateTimer();
+// 📥 Parsowanie czasu z inputa
+function parseInputTime() {
+  const [minStr, secStr] = timerDisplay.value.split(":");
+  let min = parseInt(minStr);
+  let sec = parseInt(secStr);
+  if (isNaN(min)) min = 0;
+  if (isNaN(sec)) sec = 0;
+  return { min, sec };
+}
 
-const gif = document.getElementById("gif");
-const gifPath = "gifs/giphy.gif"; // oryginalna ścieżka do gifa
-
+// ▶️ GIF start
 function startGif() {
-  gif.src = "gifs/image.png";
+  gif.src = gifStopped;
   gif.src = gifPath;
 }
 
+// ⏹️ GIF stop
 function stopGif() {
-  gif.src = "gifs/image.png";
+  gif.src = gifStopped;
 }

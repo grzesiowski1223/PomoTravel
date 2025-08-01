@@ -6,20 +6,27 @@
     <link href="scripts/style.css" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <section id="timerScre  en" class="Timerclass">
-            <div id="timer-container">
-                <p id="course"><img src="gifs/image.png" alt="Roadtrip" width="300" height="300" id="gif"></p>
-                <div id="timerDisplay">
-                    <h1 id="time">20:00</h1>
-                </div>
-                <div id="button-container">
-                    <button id="startBtn" class="button">Start</button>
-                    <button id="resetBtn" class="button">Reset</button>
-                </div>
-            </div>
-        </section>
-    </main>
+    <div id="darkmode-buttons">
+    <button id="toggle-dark-mode" class="moon/sun"><img src="gifs/dark-theme.svg" alt="" width="35" height="35"></button>
+    </div>
+
+    <script src="renderer.js"></script>
+     <main>
+         <section id="timerScre  en" class="Timerclass">
+             <div id="timer-container">
+ 
+                     <p id="course"><img src="gifs/image.png" alt="Roadtrip" width="300" height="300" id="gif"></p>
+ 
+                 <div id="timerDisplay">
+                     <input id="time" type="text" value="20:00" />
+                 </div>
+                 <div id="button-container">
+                     <button id="startBtn" class="button">Start</button>
+                     <button id="resetBtn" class="button">Reset</button>
+                 </div>
+             </div>
+         </section>
+     </main>
     <script src="scripts/pomodoro.js"></script>
 </body>
 </html>
