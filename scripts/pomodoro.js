@@ -139,7 +139,7 @@
 
         function getBreakTime() {
             return sessionCount % config.sessionsBeforeLongBreak === 0 ? 
-                   config.longBreak : config.shortBreak;
+                   config.shortBreak : config.longBreak;
         }
 
         startButton.addEventListener("click", () => {
