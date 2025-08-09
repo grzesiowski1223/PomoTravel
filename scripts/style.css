@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 /* Reset stylów */
 * {
+=======
+
+* {
+  color-scheme: light dark;
+>>>>>>> 8ef4f74 (Fixes for builds)
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -11,14 +17,31 @@ body {
   color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
+<<<<<<< HEAD
+=======
+  flex-direction: column;
+>>>>>>> 8ef4f74 (Fixes for builds)
   justify-content: center;
   align-items: center;
 }
 
+<<<<<<< HEAD
 /* Sekcja timera */
 #timer-container {
   padding: 40px;
   text-align: center;
+=======
+
+#timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+>>>>>>> 8ef4f74 (Fixes for builds)
 }
 
 #course {
@@ -27,11 +50,24 @@ body {
 }
 
 #time {
+<<<<<<< HEAD
   font-size: 64px;
   margin-bottom: 30px;
 }
 
 /* Przyciski */
+=======
+  font-size: 5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: inherit;
+  width: 100%;
+}
+
+
+>>>>>>> 8ef4f74 (Fixes for builds)
 .button {
   background-color: #ff4d4d;
   color: white;
@@ -52,12 +88,22 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+<<<<<<< HEAD
 }
 
 /* Responsywność */
 @media (max-width: 500px) {
   #time {
     font-size: 48px;
+=======
+  width: 100%;
+}
+
+
+@media (max-width: 500px) {
+  #time {
+    font-size: 3rem;
+>>>>>>> 8ef4f74 (Fixes for builds)
   }
 
   .button {
@@ -65,3 +111,98 @@ body {
     padding: 10px 20px;
   }
 }
+<<<<<<< HEAD
+=======
+
+:root {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white; }
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #ddd; color: black; }
+}
+
+#timerDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+#darkmode-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.moon-sun {
+  background-color: #666;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.moon-sun:hover {
+  background-color: #888;
+}
+
+#settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+#settings-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#settings-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  color: #333;
+}
+
+.setting {
+  margin: 15px 0;
+}
+
+.setting label {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+}
+
+.setting input {
+  width: 60px;
+  padding: 5px;
+}
+>>>>>>> 8ef4f74 (Fixes for builds)

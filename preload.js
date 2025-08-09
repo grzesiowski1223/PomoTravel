@@ -7,4 +7,15 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const type of ['chrome', 'node', 'electron']) {
     replaceText(`${type}-version`, process.versions[type])
   }
+<<<<<<< HEAD
+=======
+
+ const { contextBridge, ipcRenderer } = require('electron/renderer')
+
+ contextBridge.exposeInMainWorld('darkMode', {
+   toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+   system: () => ipcRenderer.invoke('dark-mode:system')
+   
+ })
+>>>>>>> 8ef4f74 (Fixes for builds)
 })

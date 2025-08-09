@@ -6,12 +6,50 @@
     <link href="scripts/style.css" rel="stylesheet">
 </head>
 <body>
+<<<<<<< HEAD
     <main>
         <section id="timerScre  en" class="Timerclass">
             <div id="timer-container">
                 <p id="course"><img src="gifs/image.png" alt="Roadtrip" width="300" height="300" id="gif"></p>
                 <div id="timerDisplay">
                     <h1 id="time">20:00</h1>
+=======
+    <div id="darkmode-buttons">
+        <button id="toggle-dark-mode" class="moon-sun">
+            <img src="gifs/dark-theme.svg" alt="" width="35" height="35">
+        </button>
+    </div>
+    <button id="settings-btn">⚙️</button>
+    
+    <div id="settings-modal">
+        <div id="settings-content">
+            <h2>Settings</h2>
+            <div class="setting">
+                <label for="work-time">Work Time</label>
+                <input type="number" id="work-time" min="1" value="25">
+            </div>
+            <div class="setting">
+                <label for="short-break">Long Break</label>
+                <input type="number" id="short-break" min="1" value="15">
+            </div>
+            <div class="setting">
+                <label for="long-break">Short Break</label>
+                <input type="number" id="long-break" min="1" value="5">
+            </div>
+            <button id="save-settings">Save</button>
+            <button id="close-settings">Cancel</button>
+        </div>
+    </div>
+
+    <main>
+        <section id="timerScreen" class="Timerclass">
+            <div id="timer-container">
+                <p id="course">
+                    <img src="gifs/image.png" alt="Roadtrip" width="300" height="300" id="gif">
+                </p>
+                <div id="timerDisplay">
+                    <div id="time">25:00</div>
+>>>>>>> 8ef4f74 (Fixes for builds)
                 </div>
                 <div id="button-container">
                     <button id="startBtn" class="button">Start</button>
@@ -20,6 +58,14 @@
             </div>
         </section>
     </main>
+<<<<<<< HEAD
     <script src="scripts/pomodoro.js"></script>
 </body>
 </html>
+=======
+
+    <script src="renderer.js"></script>
+    <script src="scripts/pomodoro.js"></script>
+</body>
+</html>
+>>>>>>> 8ef4f74 (Fixes for builds)
